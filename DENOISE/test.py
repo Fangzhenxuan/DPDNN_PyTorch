@@ -42,24 +42,23 @@ with torch.no_grad():
     img_W = img.size[1]
     img = transform1(img)
 
-    for j in range(10):
-        img_noise = add_noise(img, opt.noise_level).resize_(1, 1, img_H, img_W)
+    img_noise = add_noise(img, opt.noise_level).resize_(1, 1, img_H, img_W)
 
-        output = net(img_noise)
-        output = output.cpu()
-        output = output.resize_(img_H, img_W)
-        output = torch.clamp(output, min=0, max=1)
-        output = transform2(output)
+    output = net(img_noise)
+    output = output.cpu()
+    output = output.resize_(img_H, img_W)
+    output = torch.clamp(output, min=0, max=1)
+    output = transform2(output)
 
-        # output.show()
-        output.save('./output/sigma%d/%d.png'%(opt.noise_level, i))
+    # output.show()
+    output.save('./output/sigma%d/%d.png'%(opt.noise_level, i))
 
-        img_noise = transform2(img_noise.resize_(img_H, img_W))
-        # img_noise.show()
-        # img_noise.save('./output/sigma%d/%d_noise.png'%(opt.noise_level, i))
-        output = np.array(output)   # output:0~255
+    img_noise = transform2(img_noise.resize_(img_H, img_W))
+    # img_noise.show()
+    # img_noise.save('./output/sigma%d/%d_noise.png'%(opt.noise_level, i))
+    output = np.array(output)   # output:0~255
 
-        print(i, PSNR(output, label))
+    print(i, PSNR(output, label))
 
 
 
