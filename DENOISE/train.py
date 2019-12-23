@@ -75,6 +75,7 @@ def train(use_gpu=True):
     print('Finished Training')
 
 
+# This function is for checking the training effect, not the test code
 def test(epoch, i):
     net1 = DPDNN()
     net1 = net1.cuda()
